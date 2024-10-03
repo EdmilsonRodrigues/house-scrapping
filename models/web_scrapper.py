@@ -30,9 +30,13 @@ class WebScrapper:
         self.close()
         return False
 
+    def scrape_rena_immo(self):
+        time.sleep(10)
+        print("Success")
+
 
 
 if __name__ == "__main__":
-    url = "https://www.google.com"
+    url = "https://reva.immo/en/"
     with WebScrapper(url) as scrapper:
-        print("Success")
+        scrapper.scrape_rena_immo()
