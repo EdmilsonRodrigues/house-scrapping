@@ -13,29 +13,26 @@ class WebScrapper:
         # self.options.add_argument("--no-sandbox")
         # self.options.add_argument("--disable-dev-shm-usage")
         self.url = url
-        self.driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=self.options)
+        service = Service("/usr/bin/chromedriver")
+        self.driver = webdriver.Chrome(service=service, options=self.options)
 
     def open(self):
         self.driver.get(self.url)
 
     def __enter__(self):
         self.open()
+        return self
 
     def close(self):
         self.driver.quit()
 
-    def __exit__(self, **kwargs):
+    def __exit__(self, exc_type, exc_value, traceback):
         self.close()
-
-    def test_scraping(self):
-        time.sleep(5)
-        titles = self.driver.find_elements(By.TAG_NAME, "h2")
-        for title in titles:
-            print(title.text.strip())
+        return False
 
 
 
 if __name__ == "__main__":
-    with WebScrapper("https://reva.immo/en/") as scrapper:
-        scrapper.test_scraping()
-
+    url = "https://www.google.com"
+    with WebScrapper(url) as scrapper:
+        print("Success")
